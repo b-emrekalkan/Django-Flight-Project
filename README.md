@@ -1,5 +1,7 @@
 # DJANGO-FLIGHT-PROJECT
 
+## ✏ INITIAL SETUP ✏
+
 ```bash
 # CREATING VIRTUAL ENVIRONMENT
 # windows 👇
@@ -192,6 +194,91 @@ INTERNAL_IPS = [
 
 ## 🚩 Seperate Dev and Prod Settings 👇
 
+
+
+## 💻 MIGRATE THE LATEST CHANGES 👇
+```bash
+python manage.py migrate
+```
+
+## 🚩 LOGGING
+Python programmers will often use print() in their code as a quick and convenient debugging tool. Using the
+[logging framework](https://docs.djangoproject.com/en/4.0/topics/logging/#logging) is only a little more effort than that, but it’s much more elegant and flexible. As well as being useful for debugging, logging can also provide you with more - and better structured - information
+about the state and health of your application.
+Django uses and extends Python’s builtin logging module to perform system logging. This module is
+discussed in detail in Python’s own documentation; this section provides a quick overview.
+A Python logging configuration consists of four parts:
+Loggers
+Handlers
+Filters
+Formatters
+Python defines the following log levels:
+DEBUG: Low level system information for debugging purposes
+INFO: General system information
+WARNING: Information describing a minor problem that has occurred.
+ERROR: Information describing a major problem that has occurred.
+CRITICAL: Information describing a critical problem that has occurred.
+
+✔ An example logging setting may be like 👇
+
+```python
+LOGGING = {
+    "version": 1,
+    # is set to True then all loggers from the default configuration will be disabled.
+    "disable_existing_loggers": True,
+    # Formatters describe the exact format of that text of a log record.
+    "formatters": {
+        "standard": {
+            "format": "[%(levelname)s] %(asctime)s %(name)s: %(message)s"
+        },
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    # The handler is the engine that determines what happens to each message in a logger.
+    # It describes a particular logging behavior, such as writing a message to the screen,
+    # to a file, or to a network socket.
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+            "level": "INFO",
+            "stream": "ext://sys.stdout",
+            },
+        'file': {
+            'class': 'logging.FileHandler',
+            "formatter": "verbose",
+            'filename': './debug.log',
+            'level': 'WARNING',
+        },
+    },
+    # A logger is the entry point into the logging system.
+    "loggers": {
+        "django": {
+            "handlers": ["console", 'file'],
+            # log level describes the severity of the messages that the logger will handle.
+            "level": config("DJANGO_LOG_LEVEL", "INFO"),
+            'propagate': True,
+            # If False, this means that log messages written to django.request
+            # will not be handled by the django logger.
+        },
+    },
+}
+```
+
+## 📢 Django Settings: Best practices 👇
+Keep settings in environment variables.
+Write default values for production configuration (excluding secret keys and tokens).
+Don’t hardcode sensitive settings, and don’t put them in VCS.
+Split settings into groups: Django, third-party, project.
+Follow naming conventions for custom (project) settings.
+
+## ✏ This is the end of initial setup. Send this setup to your Github repo. You can use it in your projects ✏
 
 
 
