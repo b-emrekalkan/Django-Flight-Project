@@ -65,6 +65,10 @@ SECRET_KEY = config('SECRET_KEY')
 ```bash
 pip install psycopg2
 ```
+✔ To update requirements.txt 💻 Go to terminal 👇
+```bash
+pip freeze > requirements.txt
+```
 
 ✔ Click the link with CTRL key pressed in the terminal and see django rocket 🚀.
 
