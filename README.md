@@ -57,21 +57,6 @@ from decouple import config
 
 SECRET_KEY = config('SECRET_KEY')
 ```
-
-## 🚩 PostgreSQL Setup
-✔ To get Python working with Postgres, you will need to install the “psycopg2” module.
-💻 Go to terminal 👇
-
-```bash
-pip install psycopg2
-```
-✔ To update requirements.txt 💻 Go to terminal 👇
-```bash
-pip freeze > requirements.txt
-```
-
-✔ Click the link with CTRL key pressed in the terminal and see django rocket 🚀.
-
 ## 🚩 INSTALLING DJANGO REST
 
 💻 Go to terminal 👇
@@ -83,6 +68,140 @@ pip install djangorestframework
 ```
 
 ✔ Go to settings.py and add 'rest_framework' app to INSTALLED_APPS
+
+## 🚩 PostgreSQL Setup
+💻 To get Python working with Postgres, you will need to install the “psycopg2” module👇
+
+```bash
+pip install psycopg2
+```
+✔ To update requirements.txt 💻 Go to terminal 👇
+```bash
+pip freeze > requirements.txt
+```
+✔ Go to settings.py and add '' app to INSTALLED_APPS
+
+## 🚩 Install Swagger
+Explain a [sample API reference documentation](https://shopify.dev/api)
+Swagger is an open source project launched by a startup in 2010. The goal is to implement a framework
+that will allow developers to document and design APIs, while maintaining synchronization with the
+code.
+Developing an API requires orderly and understandable documentation.
+To document and design APIs with Django rest framework we will use drf-yasg which generate real
+Swagger/Open-API 2.0 specifications from a Django Rest Framework API.
+
+🔹 You can find the documentation [here](https://drf-yasg.readthedocs.io/en/stable/readme.html).
+
+💻 Go to terminal for installation 👇
+```bash
+pip install drf-yasg
+```
+💻 Go to terminal to update requirements.txt  👇
+```bash
+pip freeze > requirements.txt
+```
+
+✔ Go to settings.py and add 'drf_yasg' app to INSTALLED_APPS
+
+## 🚩 MODIFY URLS.PY 👇
+```python
+from django.contrib import admin
+from django.urls import path
+# Three modules for swagger:
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Flight Reservation API",
+        default_version="v1",
+        description="Flight Reservation API project provides flight and reservation info",
+        terms_of_service="#",
+        contact=openapi.Contact(
+            email="rafe@clarusway.com"),  # Change e-mail on this line!
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    # Url paths for swagger:
+    path("swagger(<format>\.json|\.yaml)",
+         schema_view.without_ui(cache_timeout=0), name="schema-json"),
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0),
+         name="schema-swagger-ui"),
+    path("redoc/", schema_view.with_ui("redoc",
+         cache_timeout=0), name="schemaredoc"),
+]
+```
+
+## 💻 MIGRATE 👇
+```bash
+python manage.py migrate
+```
+## 🚀 RUNSERVER 👇
+```bash
+python manage.py runserver
+```
+
+## 🚩 After running the server, go to [swagger page](http://127.0.0.1:8000/swagger/) and [redoc page](http://localhost:8000/redoc/) of your project!
+
+
+## 🚩 INSTALL DEBUG TOOLBAR 👇
+The Django Debug Toolbar is a configurable set of panels that display various debug information about
+the current request/response and when clicked, display more details about the panel’s content.
+See the Django Debug Toolbar documentation page.
+
+💻 For Installation go to terminal 👇
+```bash
+pip install django-debug-toolbar
+```
+💻 Go to terminal to update requirements.txt  👇
+```bash
+pip freeze > requirements.txt
+```
+
+✔ Go to settings.py and add 'debug_toolbar' app to INSTALLED_APPS
+
+
+## 🚩 Add django-debug-toolbar’s URLs to your project’s URLconf 👇
+```python
+from django.urls import include
+urlpatterns = [
+# ...
+path('__debug__/', include('debug_toolbar.urls')),
+]
+```
+
+## 🚩 Add the middleware to the top 👇
+```python
+MIDDLEWARE = [
+"debug_toolbar.middleware.DebugToolbarMiddleware",
+# ...
+]
+```
+
+## 🚩 Add configuration of internal IPs to "settings.py" 👇
+```python
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+```
+
+## 🚩 Seperate Dev and Prod Settings 👇
+
+
+
+
+
+
+
+
+
+
+
 
 ## 🚩 ADDING AN APP
 
