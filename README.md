@@ -475,40 +475,41 @@ LOGGING = {
 - Split settings into groups: Django, third-party, project.
 - Follow naming conventions for custom (project) settings.
 
-## ✏ This is the end of initial setup. Send this setup to your Github repo. You can use it in your projects ✏
+# ✏ This is the end of initial setup. Send this setup to your Github repo. You can use it in your projects ✏
+
+## ******************************************************
+## 🚩 ADDING AN APP
+
+💻 Go to terminal 👇
 
 ```bash
 python manage.py startapp users
 ```
 
-## 🚩 Add "users" to INSTALLED_APPS in base.py 👇
-```python
-'users',
-```
+✔ Go to base.py and add 'users' app to "INSTALLED_APPS"
 
-## 💻 INSTALL DJ-REST-AUTH
+## 💻 INSTALL [DJ-REST-AUTH](https://dj-rest-auth.readthedocs.io/en/latest/)
 ```bash
 pip install dj-rest-auth
 ```
-
-## pip freeze
-
-## Add dj_rest_auth app to INSTALLED_APPS in your django settings.py:
+💻 Go to terminal to update requirements.txt  👇
+```bash
+pip freeze > requirements.txt
+```
+## 🚩 Add "dj_rest_auth" app to "INSTALLED_APPS" in your django base.py 👇
 
 ```python
- ...,
     'rest_framework',
     'rest_framework.authtoken',
-    ...,
-    'dj_rest_auth'
+    'dj_rest_auth',
 ```
-
-## Go to main urls.
+## 🚩 Go to main/urls.py and add 👇
 ```python
 path('user/', include('users.urls'))
 ```
-## Add urls.py under users
-## 🚩 Go to users/urls
+
+## ✔ Create urls.py under "users"
+## 🚩 Go to users/urls.py and add 👇
 ```python
 from django.urls import path, include
 
@@ -521,4 +522,43 @@ urlpatterns = [
 ```bash
 python manage.py migrate
 ```
+
+## ✔ Create serializers.py under "users" and add 👇
+```python
+from dataclasses import fields
+from rest_framework import serializers, validators
+from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+
+class RegisterSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required = True,
+        validators = [validators.UniqueValidator(queryset=User.objects.all())]
+    )
+
+    password = serializers.CharField(
+        write_only = True,
+        required = True,
+        validators = [validate_password],
+        style = {"input_type": "password"}
+    )
+
+    password1 = serializers.CharField(
+        write_only = True,
+        required = True,
+        validators = [validate_password],
+        style = {"input_type": "password"}
+    )
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'password1'
+        )
+```
+
+
 
