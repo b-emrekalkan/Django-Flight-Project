@@ -606,6 +606,46 @@ REST_FRAMEWORK = {
 }
 ```
 
+## Create "signals.py" under user and add 👇
+```python
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
+@receiver(post_save, sender=User)
+def create_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+```
+
+## Go to apps.py and add under UsersConfig 👇
+```python
+def ready(self) -> None:
+    import users.signals
+```
+
+## Go to views.py and customize RegisterView()👇
+```python
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+
+    #! When user register "username", "email","first_name",    "last_name" and "token" will be returned. 👇
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        data = serializer.data
+        token = Token.objects.get(user=user)
+        data['token'] = token.key
+        headers = self.get_success_headers(serializer.data)
+        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+```
 
 
 
