@@ -1,3 +1,4 @@
+from distutils.debug import DEBUG
 from django.contrib import admin
 from django.urls import path, include
 # Three modules for swagger:
@@ -29,3 +30,6 @@ urlpatterns = [
          cache_timeout=0), name="schemaredoc"),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
+
+""" if DEBUG:
+    urlpatterns += path('__debug__/', include('debug_toolbar.urls')) """

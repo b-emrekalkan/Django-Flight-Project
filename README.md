@@ -462,7 +462,7 @@ LOGGING = {
             # log level describes the severity of the messages that the logger will handle. 
             "level": config("DJANGO_LOG_LEVEL", "INFO"),
             'propagate': True,
-            # If False, this means that log messages written to django.request 
+            # If False, this means that log messages written to django.request
             # will not be handled by the django logger.
         },
     },
@@ -476,3 +476,4 @@ LOGGING = {
 - Follow naming conventions for custom (project) settings.
 
 ## ✏ This is the end of initial setup. Send this setup to your Github repo. You can use it in your projects ✏
+
