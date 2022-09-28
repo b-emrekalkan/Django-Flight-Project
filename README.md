@@ -526,12 +526,13 @@ python manage.py migrate
 ## ✔ Create serializers.py under "users" and add 👇
 ```python
 from rest_framework import serializers, validators
-from django.contrib.auth.models import User
-from django.conf import settings
+# from django.contrib.auth.models import User
+# from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from dj_rest_auth.serializers import TokenSerializer
 
-# User = settings.AUTH_USER_MODEL
-
+User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -628,27 +629,63 @@ def ready(self) -> None:
 ## Go to views.py and customize RegisterView()👇
 ```python
 from rest_framework import generics, status
+from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from .serializers import RegisterSerializer
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
 
-    #! When user register "username", "email","first_name",    "last_name" and "token" will be returned. 👇
+    #! When user register 👉 "username", "email","first_name","last_name" and "token" will be returned. 👇
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         data = serializer.data
-        token = Token.objects.get(user=user)
-        data['token'] = token.key
+        if Token.objects.filter(user=user).exists():
+            token = Token.objects.get(user=user)
+            data['token'] = token.key
+        else:
+            data['error'] = 'User does not have token. Please login'
         headers = self.get_success_headers(serializer.data)
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+
 ```
 
+## 🚩 Override TokenSerializer 👇
+```python
+from dj_rest_auth.serializers import TokenSerializer
 
+#! We need to override the TokenSerializer to return all user data in a single request.
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = {
+            'username',
+            'email'
+        }
 
+class CustomTokenSerializer(TokenSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta(TokenSerializer.Meta):
+        fields = {
+            'key',
+            'user'
+        }
+```
+
+## 🚩 Go to base.py and add 👇
+```python
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
+}
+```
 
 
 
