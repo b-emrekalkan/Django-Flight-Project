@@ -477,3 +477,48 @@ LOGGING = {
 
 ## ✏ This is the end of initial setup. Send this setup to your Github repo. You can use it in your projects ✏
 
+```bash
+python manage.py startapp users
+```
+
+## 🚩 Add "users" to INSTALLED_APPS in base.py 👇
+```python
+'users',
+```
+
+## 💻 INSTALL DJ-REST-AUTH
+```bash
+pip install dj-rest-auth
+```
+
+## pip freeze
+
+## Add dj_rest_auth app to INSTALLED_APPS in your django settings.py:
+
+```python
+ ...,
+    'rest_framework',
+    'rest_framework.authtoken',
+    ...,
+    'dj_rest_auth'
+```
+
+## Go to main urls.
+```python
+path('user/', include('users.urls'))
+```
+## Add urls.py under users
+## 🚩 Go to users/urls
+```python
+from django.urls import path, include
+
+urlpatterns = [
+    path('auth/', include('dj_rest_auth.urls')),
+]
+```
+
+## 💻 Migrate your database
+```bash
+python manage.py migrate
+```
+

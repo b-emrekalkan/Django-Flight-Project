@@ -29,6 +29,8 @@ urlpatterns = [
     path("redoc/", schema_view.with_ui("redoc",
          cache_timeout=0), name="schemaredoc"),
     path('__debug__/', include('debug_toolbar.urls')),
+
+    path('user/', include('users.urls'))
 ]
 
 """ if DEBUG:
