@@ -839,7 +839,110 @@ class FlightView(viewsets.ModelViewSet):
 
     permission_classes = (IsStafforReadOnly,)
 ```
+## 🚩 Go to serializers.py and add Reservation...
+```python
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = (
+            "id",
+            "flight",  # GET
+            "flight_id",  # POST
+            "user",  # GET
+            "user_id",  # POST
+            "passenger"
+        )
+```
+
 ## 🚩 Go to views.py and add Reservation...
 ```python
-
+from .serializers import ReservationSerializer
+class ReservationView(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
 ```
+## flight/urls.py
+```python
+from .views import ReservationView
+router.register('resv', ReservationView)
+```
+
+## serializers.py and add PassengerSerializer
+```python
+class PassengerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Passenger
+        fields = "__all__"
+```
+
+## in ReservationSerializer add 👇
+```python
+passenger = PassengerSerializer(many = True, required=True)
+flight = serializers.StringRelatedField()
+flight_id = serializers.IntegerField(write_only=True)
+#! write_only 👉 It will only appear when creating
+user = serializers.StringRelatedField()
+user_id = serializers.IntegerField(write_only=True, required=False)
+```
+
+## 🚩 We need to extract passenger information from the data, when the reservation is created. For that add to serializers.py 👇
+```python
+def create(self, validated_data):
+        passenger_data = validated_data.pop('passenger')
+        validated_data['user_id'] = self.context['request'].user.id
+        # We updated the user information inside data 👆
+        reservation = Reservation.objects.create(**validated_data)
+        for passenger in passenger_data:
+            pas = Passenger.objects.create(**passenger)
+            reservation.passenger.add(pas)
+        reservation.save()
+        return reservation
+```
+
+## 🚩 All reservation information can only be seen by the staff user (Users will only see their own reservation). For that override get_queryset method in ReservationView in views.py 👇
+```python
+  #! Overriding "get_queryset" Method 👇
+ def get_queryset(self):
+        queryset = super().get_queryset() # 👉 Reservation.objects.all()
+        if self.request.user.is_staff:
+            return queryset
+        return queryset.filter(user = self.request.user)
+```
+
+## Let the staff members see the reservation information of that flight for each flight. for this, we will add reservations to FlightView by writing a separate serializer and say show it to staff.
+```python
+class StaffFlightSerializer(serializers.ModelSerializer):
+    reservation = ReservationSerializer(many=True, read_only=True)
+    class Meta:
+        model = Flight
+        fields = "__all__"
+```
+
+## 🚩 Go to views.py and override get_serializer_class in FlightView() 👇
+```python
+from .serializers import StaffFlightSerializer
+def get_serializer_class(self):
+        serializer = super().get_serializer_class()
+        if self.request.user.is_staff:
+            return StaffFlightSerializer
+        return serializer
+```
+
+## 🚩 We will override the get_query_set method in FlightView() so that normal users can't see past flights.
+```python
+from datetime import datetime, date
+def get_queryset(self):
+        now = datetime.now()
+        current_time = now.strftime('%H:%M:%S')
+        today = date.today()
+
+        if self.request.user.is_staff:
+            return super().get_queryset()
+        else:
+            queryset = Flight.objects.filter(date_of_departure__gt = today)
+            if Flight.objects.filter(date_of_departure = today):
+                today_qs = Flight.objects.filter(date_of_departure = today).filter(etd__gt=current_time)
+            queryset = queryset.union(today_qs)
+            return queryset
+```
+

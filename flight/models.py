@@ -27,4 +27,4 @@ class Reservation(models.Model):
     passenger = models.ManyToManyField(Passenger, related_name = 'reservations')
     #! 👆 It is possible to access the parent table that is related to via related_name. 👉 p.reservations.all()
     #? Related_name is used so that we can access the model of the parent from the child.
-    flight = models.ForeignKey(Flight, on_delete = models.CASCADE)
+    flight = models.ForeignKey(Flight, on_delete = models.CASCADE, related_name="reservation")
