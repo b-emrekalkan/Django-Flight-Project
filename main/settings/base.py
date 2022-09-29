@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     #myApps:
     'users',
+    'flight',
 
 
 ]

@@ -689,6 +689,134 @@ REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
 }
 ```
+## ******************************************************
+# 🚀 LOGIC STARTING
 
+- Flights: 
+    + Users:
 
+        - views upcoming flights
+    
+    + Staff members:
+        - views all flights with reservations
+        - create flights
 
+- Reservations :
+    + Login_users:
+        - create reservations:
+        - views only their reservations
+
+    + Staff_users:
+        - create reservations
+        - views all reservations
+
+    + Staff Members:
+        - Views all flights with reser
+
+## 🚩 STARTAPP
+```bash
+python manage.py startapp flight
+```
+
+## ADD INSTALLED APPS
+
+## GO TO FLIGHT/MODELS.PY
+```python
+from django.db import models
+from django.contrib.auth.models import User
+
+class Flight(models.Model):
+    flight_number = models.CharField(max_length=20)
+    operating_airlines = models.CharField(max_length=20)
+    departure_city = models.CharField(max_length=20)
+    arrival_city = models.CharField(max_length=20)
+    date_of_departure = models.DateField()
+    etd = models.TimeField()
+
+    def __str__(self):
+        return f'{self.flight_number} - {self.departure_city} - {self.arrival_city}'
+
+class Passenger(models.Model):
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    email = models.EmailField()
+    phone_number = models.IntegerField()
+    create_date = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    passenger = models.ManyToManyField(Passenger, related_name = 'reservations')
+    #! 👆 It is possible to access the parent table that is related to via related_name. 👉 p.reservations.all()
+    flight = models.ForeignKey(Flight, on_delete = models.CASCADE)
+```
+
+## admin.py
+```python
+from django.contrib import admin
+from .models import Flight, Passenger, Reservation
+
+admin.site.register(Flight)
+admin.site.register(Passenger)
+admin.site.register(Reservation)
+```
+
+## 💻 Go to terminal
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+## 🚩 Create serializers.py under flight app 👇
+```python
+from rest_framework import serializers
+from .models import Flight, Passenger, Reservation
+
+class FlightSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Flight
+        fields = (
+            "flight_number",
+            "operating_airlines",
+            "departure_city",
+            "arrival_city",
+            "date_of_departure",
+            "etd"
+        )
+```
+
+## views.py
+```python
+from django.shortcuts import render
+from .serializers import FlightSerializer
+from rest_framework import viewsets
+from .models import Flight, Passenger, Reservation
+
+class FlightView(viewsets.ModelViewSet):
+    queryset = Flight.objects.all()
+    serializer_class = FlightSerializer
+```
+## main. urls.py
+```python
+path('flight/', include('flight.urls'))
+```
+
+## flight.urls.py
+```python
+from rest_framework import routers
+from .views import FlightView
+
+router = routers.DefaultRouter()
+router.register('flights', FlightView)
+
+urlpatterns = [
+
+]
+
+urlpatterns += router.urls
+```
+
+## 
