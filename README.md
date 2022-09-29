@@ -692,7 +692,7 @@ REST_AUTH_SERIALIZERS = {
 ## ******************************************************
 # 🚀 LOGIC STARTING
 
-- Flights: 
+- Flights:
     + Users:
 
         - views upcoming flights
@@ -709,14 +709,17 @@ REST_AUTH_SERIALIZERS = {
     + Staff_users:
         - create reservations
         - views all reservations
-## 🚩 STARTAPP
+## 🚩 ADDING AN APP:
+
+💻 Go to terminal 👇
+
 ```bash
 python manage.py startapp flight
 ```
 
-## ADD INSTALLED APPS
+✔ Go to base.py and add 'users' app to "INSTALLED_APPS"
 
-## GO TO FLIGHT/MODELS.PY
+## 🚩 Go to flight / models.py and create Models 👇
 ```python
 from django.db import models
 from django.contrib.auth.models import User
@@ -749,7 +752,7 @@ class Reservation(models.Model):
     flight = models.ForeignKey(Flight, on_delete = models.CASCADE)
 ```
 
-## admin.py
+## 🚩 Register the models in flight / admin.py 👇
 ```python
 from django.contrib import admin
 from .models import Flight, Passenger, Reservation
@@ -759,19 +762,19 @@ admin.site.register(Passenger)
 admin.site.register(Reservation)
 ```
 
-## 💻 Go to terminal
+## 💻 Go to terminal for migration 👇
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-## 🚩 Create serializers.py under flight app 👇
+## 🚩 Create "serializers.py" file under flight App 👇
 ```python
 from rest_framework import serializers
 from .models import Flight, Passenger, Reservation
 
 class FlightSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Flight
         fields = (
@@ -784,7 +787,7 @@ class FlightSerializer(serializers.ModelSerializer):
         )
 ```
 
-## views.py
+## 🚩 Time to add views in flight / views.py 👇
 ```python
 from django.shortcuts import render
 from .serializers import FlightSerializer
@@ -797,11 +800,13 @@ class FlightView(viewsets.ModelViewSet):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
 ```
-## main. urls.py
+
+## 🚩 Go to main / urls.py and add the path 👇
 ```python
 path('flight/', include('flight.urls'))
 ```
-## flight.urls.py
+
+## 🚩 Create "urls.py" file under flight App 👇
 ```python
 from rest_framework import routers
 from .views import FlightView
@@ -816,7 +821,7 @@ urlpatterns = [
 urlpatterns += router.urls
 ```
 
-## We will use "IsAdminUser" so that only the authorized user can create a flight. For that create permissions.py
+## 🚩 We will use "IsAdminUser" so that only the authorized user can create a flight. For that create "permissions.py" file under flight App 👇
 ```python
 from rest_framework import permissions
 
@@ -826,16 +831,17 @@ class IsStafforReadOnly(permissions.IsAdminUser):
             return True
         return bool(request.user and request.user.is_staff)
 ```
-## 🚩 go to views.py and add
+
+## 🚩 Go to "views.py" and add this permission 👇
 ```python
 from .permissions import IsStafforReadOnly
 
 class FlightView(viewsets.ModelViewSet):
-    
 
     permission_classes = (IsStafforReadOnly,)
 ```
-## 🚩 Go to serializers.py and add Reservation...
+
+## 🚩 Go to "serializers.py" and add ReservationSerializer() 👇
 ```python
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
