@@ -1,6 +1,7 @@
 # DJANGO-FLIGHT-PROJECT
 
-## ✏ INITIAL SETUP ✏
+## **************************************
+# 🚀 INITIAL SETUP
 
 ```bash
 # CREATING VIRTUAL ENVIRONMENT
@@ -478,6 +479,8 @@ LOGGING = {
 # ✏ This is the end of initial setup. Send this setup to your Github repo. You can use it in your projects ✏
 
 ## ******************************************************
+# 🚀 AUTHENTICATION
+
 ## 🚩 ADDING AN APP
 
 💻 Go to terminal 👇
