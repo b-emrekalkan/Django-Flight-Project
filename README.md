@@ -476,7 +476,7 @@ LOGGING = {
 - Split settings into groups: Django, third-party, project.
 - Follow naming conventions for custom (project) settings.
 
-# ✏ This is the end of initial setup. Send this setup to your Github repo. You can use it in your projects ✏
+# ✏ This is the end of initial setup ✏
 
 ## ******************************************************
 # 🚀 AUTHENTICATION
