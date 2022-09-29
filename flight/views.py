@@ -33,7 +33,6 @@ class FlightView(viewsets.ModelViewSet):
             queryset = queryset.union(today_qs)
             return queryset
 
-
 class ReservationView(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer

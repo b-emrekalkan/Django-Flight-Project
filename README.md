@@ -709,10 +709,6 @@ REST_AUTH_SERIALIZERS = {
     + Staff_users:
         - create reservations
         - views all reservations
-
-    + Staff Members:
-        - Views all flights with reser
-
 ## 🚩 STARTAPP
 ```bash
 python manage.py startapp flight
