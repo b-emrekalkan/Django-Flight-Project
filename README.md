@@ -805,7 +805,6 @@ class FlightView(viewsets.ModelViewSet):
 ```python
 path('flight/', include('flight.urls'))
 ```
-
 ## flight.urls.py
 ```python
 from rest_framework import routers
@@ -821,4 +820,26 @@ urlpatterns = [
 urlpatterns += router.urls
 ```
 
-## 
+## We will use "IsAdminUser" so that only the authorized user can create a flight. For that create permissions.py
+```python
+from rest_framework import permissions
+
+class IsStafforReadOnly(permissions.IsAdminUser):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return bool(request.user and request.user.is_staff)
+```
+## 🚩 go to views.py and add
+```python
+from .permissions import IsStafforReadOnly
+
+class FlightView(viewsets.ModelViewSet):
+    
+
+    permission_classes = (IsStafforReadOnly,)
+```
+## 🚩 Go to views.py and add Reservation...
+```python
+
+```
