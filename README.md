@@ -1,7 +1,7 @@
-# DJANGO-FLIGHT-PROJECT
+# <center> DJANGO-FLIGHT-PROJECT </center>
 
-## **************************************
-# 🚀 INITIAL SETUP
+## <center> ************************************** </center>
+# <center> 🚀 INITIAL SETUP </center>
 
 ```bash
 # CREATING VIRTUAL ENVIRONMENT
@@ -37,10 +37,10 @@ django-admin --version
 6-python manage.py createsuperuser
 7-python manage.py runserver
 ```
-## 👇 Secure your project
+## 🛑 Secure your project
 ## 🚩 .gitignore
 
-✔ Add a gitignore file at same level as env folder, and check that it includes .env and /env lines.
+✔ Add a ".gitignore" file at same level as env folder, and check that it includes ".env" and /env lines.
 
 🔹 Do that before adding your files to staging area, else you will need extra work to unstage files to be able to ignore them.
 
@@ -53,12 +53,12 @@ django-admin --version
 pip install python-decouple
 ```
 
-💻 Go to terminal to update requirements.txt  👇
+💻 Go to terminal to update "requirements.txt"  👇
 ```bash
 pip freeze > requirements.txt
 ```
 
-✔ Create a new file and name as .env at same level as env folder
+✔ Create a new file and name as ".env" at same level as env folder
 
 ✔ Copy your SECRET_KEY from settings.py into this .env file. Don't forget to remove quotation marks and blanks from SECRET_KEY
 
@@ -66,7 +66,7 @@ pip freeze > requirements.txt
 SECRET_KEY=-)=b-%-w+0_^slb(exmy*mfiaj&wz6_fb4m&s=az-zs!#1^ui7j
 ```
 
-✔ Go to settings.py, make amendments below 👇
+✔ Go to "settings.py", make amendments below 👇
 
 ```python
 from decouple import config
@@ -83,7 +83,7 @@ python manage.py migrate
 pip install djangorestframework
 ```
 
-✔ Go to settings.py and add 'rest_framework' app to INSTALLED_APPS
+✔ Go to "settings.py" and add 'rest_framework' app to INSTALLED_APPS
 
 ## 🚩 PostgreSQL Setup
 💻 To get Python working with Postgres, you will need to install the “psycopg2” module👇
@@ -97,7 +97,7 @@ pip freeze > requirements.txt
 ```
 ✔ Go to settings.py and add '' app to INSTALLED_APPS
 
-## 🚩 Install Swagger
+## 💻 Install Swagger
 🔹 Explain a [sample API reference documentation](https://shopify.dev/api)
 
 🔹 Swagger is an open source project launched by a startup in 2010. The goal is to implement a framework that will allow developers to document and design APIs, while maintaining synchronization with the code.
@@ -117,9 +117,9 @@ pip install drf-yasg
 pip freeze > requirements.txt
 ```
 
-✔ Go to settings.py and add 'drf_yasg' app to INSTALLED_APPS
+✔ Go to "settings.py" and add 'drf_yasg' app to INSTALLED_APPS
 
-## ✔ Here is the updated urls.py for swagger. In swagger documentation, those patterns are not up-to-date. Modify urls.py 👇
+## ✔ Here is the updated "urls.py" file for swagger. In swagger documentation, those patterns are not up-to-date 👇
 ```python
 from django.contrib import admin
 from django.urls import path
@@ -165,7 +165,7 @@ python manage.py runserver
 ### ✔ After running the server, go to [swagger page](http://127.0.0.1:8000/swagger/) and [redoc page](http://localhost:8000/redoc/) of your project!
 
 
-## 🚩 INSTALL DEBUG TOOLBAR 👇
+## 💻 INSTALL DEBUG TOOLBAR 👇
 🔹 The Django Debug Toolbar is a configurable set of panels that display various debug information about the current request/response and when clicked, display more details about the panel’s content.
 
 📜 See the Django Debug Toolbar [documentation page](https://django-debug-toolbar.readthedocs.io/en/latest/).
@@ -174,12 +174,12 @@ python manage.py runserver
 ```bash
 pip install django-debug-toolbar
 ```
-💻 Go to terminal to update requirements.txt  👇
+💻 Go to terminal to update "requirements.txt"  👇
 ```bash
 pip freeze > requirements.txt
 ```
 
-✔ Go to settings.py and add 'debug_toolbar' app to INSTALLED_APPS
+✔ Go to "settings.py" and add 'debug_toolbar' app to INSTALLED_APPS
 
 
 ## 🚩 Add django-debug-toolbar’s URLs to your project’s URLconf 👇
@@ -211,7 +211,7 @@ INTERNAL_IPS = [
 
 🔹 There is no built-in universal way to configure Django settings without hardcoding them. But books, open-source and work projects provide a lot of recommendations and approaches on how to do it best. Let’s take a brief look at the most popular ones to examine their weaknesses and strengths.
 
-### 👉 First Solution: Keeping local settings in "settings_local.py
+### 👉 First Solution: Keeping local settings in "settings_local.py"
 - This is the oldest method. I used it when I was configuring a Django project on a production server for the first time. I saw a lot of people use it back in the day, and I still see it now. The basic idea of this method is to extend all environment-specific settings in the settings_local.py file, which is ignored by VCS.
 
     - Pros: Secrets not in VCS.
@@ -235,9 +235,9 @@ INTERNAL_IPS = [
     - dev.py which will include developmend specific settings.
     - prod.py which will include production specific settings.
 
-## 🚩 Copy all the staff inside settings.py to base.py. And delete  settings.py
+## 🚩 Copy all the staff inside "settings.py" to "base.py". And delete "settings.py"
 
-## ✔ base.py will be 👇
+## ✔ "base.py" file will be 👇
 ```python
 """
 Django settings for main project.
@@ -337,7 +337,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ```
 
-## ✔ dev.py will be 👇
+## ✔ "dev.py" file will be 👇
 ```python
 from .base import *
 THIRD_PARTY_APPS = ["debug_toolbar"]
@@ -357,7 +357,7 @@ INTERNAL_IPS = [
 "127.0.0.1",
 ]
 ```
-## ✔ prod.py will be 👇
+## ✔ "prod.py" file will be 👇
 ```python
 from .base import *
 DATABASES = {
@@ -373,7 +373,7 @@ DATABASES = {
 }
 ```
 
-## ✔ __init__.py will be 👇
+## ✔ "__init__.py" file will be 👇
 ```python
 from .base import *
 env_name = config("ENV_NAME")
@@ -383,7 +383,7 @@ elif env_name == "dev":
     from .dev import *
 ```
 
-## ✔ Modify .env file with environment name, postgres and debug variables 👇
+## ✔ Modify ".env" file with environment name, postgres and debug variables 👇
 ```python
 ENV_NAME=dev
 DEBUG=True
@@ -398,7 +398,7 @@ SQL_PORT=5432
 python manage.py migrate
 ```
 
-## 🚩 LOGGING
+## 🔴 LOGGING
 🔹 Python programmers will often use print() in their code as a quick and convenient debugging tool. Using the [logging framework](https://docs.djangoproject.com/en/4.0/topics/logging/#logging) is only a little more effort than that, but it’s much more elegant and flexible. As well as being useful for debugging, logging can also provide you with more - and better structured - information about the state and health of your application.
 
 🔹 Django uses and extends Python’s builtin logging module to perform system logging. This module is discussed in detail in Python’s own documentation; this section provides a quick overview.
@@ -476,10 +476,10 @@ LOGGING = {
 - Split settings into groups: Django, third-party, project.
 - Follow naming conventions for custom (project) settings.
 
-# ✏ This is the end of initial setup ✏
+# <center> ✏ This is the end of initial setup ✏ </center>
 
-## ******************************************************
-# 🚀 AUTHENTICATION
+## <center> ****************************************************** </center>
+# <center> 🚀 AUTHENTICATION </center>
 
 ## 🚩 ADDING AN APP
 
@@ -489,30 +489,30 @@ LOGGING = {
 python manage.py startapp users
 ```
 
-✔ Go to base.py and add 'users' app to "INSTALLED_APPS"
+✔ Go to "base.py" and add 'users' app to "INSTALLED_APPS"
 
 ## 💻 INSTALL [DJ-REST-AUTH](https://dj-rest-auth.readthedocs.io/en/latest/)
 ```bash
 pip install dj-rest-auth
 ```
-💻 Go to terminal to update requirements.txt  👇
+💻 Go to terminal to update "requirements.txt"  👇
 ```bash
 pip freeze > requirements.txt
 ```
-## 🚩 Add "dj_rest_auth" app to "INSTALLED_APPS" in your django base.py 👇
+## 🚩 Add "dj_rest_auth" app to "INSTALLED_APPS" in your django "base.py" 👇
 
 ```python
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
 ```
-## 🚩 Go to main/urls.py and add 👇
+## 🚩 Go to "main/urls.py" and add the path 👇
 ```python
 path('users/', include('users.urls'))
 ```
 
-## ✔ Create urls.py under "users"
-## 🚩 Go to users/urls.py and add 👇
+## ✔ Create "urls.py" file under "users" App 👇
+## 🚩 Go to "users/urls.py" and add 👇
 ```python
 from django.urls import path, include
 
@@ -526,7 +526,7 @@ urlpatterns = [
 python manage.py migrate
 ```
 
-## ✔ Create serializers.py under "users" and add 👇
+## ✔ Create "serializers.py" file under "users" App and add 👇
 ```python
 from rest_framework import serializers, validators
 # from django.contrib.auth.models import User
@@ -585,7 +585,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 ```
-## Go to views.py
+## 🚩 Go to "views.py"
 ```python
 from operator import ge
 from rest_framework import generics
@@ -596,12 +596,12 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 ```
 
-## 🚩 Go to urls.py
+## 🚩 Go to "urls.py" and add the path 👇
 ```python
 path('register/', RegisterView.as_view()),
 ```
 
-## 🚩 Go to base.py and add 👇
+## 🚩 Go to "base.py" and add 👇
 ```python
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -610,7 +610,7 @@ REST_FRAMEWORK = {
 }
 ```
 
-## Create "signals.py" under user and add 👇
+## 🚩 Create "signals.py" under "user" App and add 👇
 ```python
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -623,13 +623,13 @@ def create_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 ```
 
-## Go to apps.py and add under UsersConfig 👇
+## 🚩 Go to "apps.py" and add this under UsersConfig() 👇
 ```python
 def ready(self) -> None:
     import users.signals
 ```
 
-## Go to views.py and customize RegisterView()👇
+## 🚩 Go to "views.py" and customize RegisterView()👇
 ```python
 from rest_framework import generics, status
 from django.contrib.auth.models import User
@@ -655,12 +655,9 @@ class RegisterView(generics.CreateAPIView):
             data['error'] = 'User does not have token. Please login'
         headers = self.get_success_headers(serializer.data)
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
-
-
-
 ```
 
-## 🚩 Override TokenSerializer 👇
+## 🚩 Override TokenSerializer() 👇
 ```python
 from dj_rest_auth.serializers import TokenSerializer
 
@@ -683,14 +680,14 @@ class CustomTokenSerializer(TokenSerializer):
         }
 ```
 
-## 🚩 Go to base.py and add 👇
+## 🚩 Go to "base.py" and add 👇
 ```python
 REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
 }
 ```
-## ******************************************************
-# 🚀 LOGIC STARTING
+## <center> ****************************************************** </center>
+# <center> 🚀 LOGIC STARTING </center>
 
 - Flights:
     + Users:
@@ -717,9 +714,9 @@ REST_AUTH_SERIALIZERS = {
 python manage.py startapp flight
 ```
 
-✔ Go to base.py and add 'users' app to "INSTALLED_APPS"
+✔ Go to "base.py" and add 'users' app to "INSTALLED_APPS"
 
-## 🚩 Go to flight / models.py and create Models 👇
+## 🚩 Go to "flight/models.py" and create Models 👇
 ```python
 from django.db import models
 from django.contrib.auth.models import User
@@ -749,10 +746,10 @@ class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     passenger = models.ManyToManyField(Passenger, related_name = 'reservations')
     #! 👆 It is possible to access the parent table that is related to via related_name. 👉 p.reservations.all()
-    flight = models.ForeignKey(Flight, on_delete = models.CASCADE)
+    flight = models.ForeignKey(Flight, on_delete = models.CASCADE, related_name="reservation")
 ```
 
-## 🚩 Register the models in flight / admin.py 👇
+## 🚩 Register the models in "flight/admin.py" 👇
 ```python
 from django.contrib import admin
 from .models import Flight, Passenger, Reservation
@@ -768,7 +765,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-## 🚩 Create "serializers.py" file under flight App 👇
+## 🚩 Create "serializers.py" file under "flight" App 👇
 ```python
 from rest_framework import serializers
 from .models import Flight, Passenger, Reservation
@@ -787,7 +784,7 @@ class FlightSerializer(serializers.ModelSerializer):
         )
 ```
 
-## 🚩 Time to add views in flight / views.py 👇
+## 🚩 Time to add views in "flight/views.py" 👇
 ```python
 from django.shortcuts import render
 from .serializers import FlightSerializer
@@ -801,12 +798,12 @@ class FlightView(viewsets.ModelViewSet):
     serializer_class = FlightSerializer
 ```
 
-## 🚩 Go to main / urls.py and add the path 👇
+## 🚩 Go to "main/urls.py" and add the path 👇
 ```python
 path('flight/', include('flight.urls'))
 ```
 
-## 🚩 Create "urls.py" file under flight App 👇
+## 🚩 Create "urls.py" file under "flight" App 👇
 ```python
 from rest_framework import routers
 from .views import FlightView
@@ -821,7 +818,7 @@ urlpatterns = [
 urlpatterns += router.urls
 ```
 
-## 🚩 We will use "IsAdminUser" so that only the authorized user can create a flight. For that create "permissions.py" file under flight App 👇
+## 🚩 We will use "IsAdminUser" so that only the authorized user can create a flight. For that create "permissions.py" file under "flight" App 👇
 ```python
 from rest_framework import permissions
 
@@ -856,20 +853,20 @@ class ReservationSerializer(serializers.ModelSerializer):
         )
 ```
 
-## 🚩 Go to views.py and add Reservation...
+## 🚩 Go to "views.py" and add ReservationView() 👇
 ```python
 from .serializers import ReservationSerializer
 class ReservationView(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 ```
-## flight/urls.py
+## 🚩 Go to "flight/urls.py" and add the path 👇
 ```python
 from .views import ReservationView
 router.register('resv', ReservationView)
 ```
 
-## serializers.py and add PassengerSerializer
+## 🚩 Go to "serializers.py" and add PassengerSerializer() 👇
 ```python
 class PassengerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -877,7 +874,7 @@ class PassengerSerializer(serializers.ModelSerializer):
         fields = "__all__"
 ```
 
-## in ReservationSerializer add 👇
+## 🚩 In ReservationSerializer() add 👇
 ```python
 passenger = PassengerSerializer(many = True, required=True)
 flight = serializers.StringRelatedField()
@@ -887,7 +884,7 @@ user = serializers.StringRelatedField()
 user_id = serializers.IntegerField(write_only=True, required=False)
 ```
 
-## 🚩 We need to extract passenger information from the data, when the reservation is created. For that add to serializers.py 👇
+## 🚩 We need to extract passenger information from the data, when the reservation is created. For that add to "serializers.py" 👇
 ```python
 def create(self, validated_data):
         passenger_data = validated_data.pop('passenger')
@@ -901,7 +898,7 @@ def create(self, validated_data):
         return reservation
 ```
 
-## 🚩 All reservation information can only be seen by the staff user (Users will only see their own reservation). For that override get_queryset method in ReservationView in views.py 👇
+## 🚩 All reservation information can only be seen by the staff user <i>(Users will only see their own reservation)</i>. For that override "get_queryset" method in "ReservationView()" in "views.py" 👇
 ```python
   #! Overriding "get_queryset" Method 👇
  def get_queryset(self):
@@ -911,7 +908,7 @@ def create(self, validated_data):
         return queryset.filter(user = self.request.user)
 ```
 
-## Let the staff members see the reservation information of that flight for each flight. for this, we will add reservations to FlightView by writing a separate serializer and say show it to staff.
+## 🚩 Let the staff members see the reservation information of that flight for each flight. For this, we will add reservations to "FlightView()" by writing a separate serializer and say show it to staff 👇
 ```python
 class StaffFlightSerializer(serializers.ModelSerializer):
     reservation = ReservationSerializer(many=True, read_only=True)
@@ -920,7 +917,7 @@ class StaffFlightSerializer(serializers.ModelSerializer):
         fields = "__all__"
 ```
 
-## 🚩 Go to views.py and override get_serializer_class in FlightView() 👇
+## 🚩 Go to "views.py" and override "get_serializer_class" in "FlightView()" 👇
 ```python
 from .serializers import StaffFlightSerializer
 def get_serializer_class(self):
@@ -930,7 +927,7 @@ def get_serializer_class(self):
         return serializer
 ```
 
-## 🚩 We will override the get_query_set method in FlightView() so that normal users can't see past flights.
+## 🚩 We will override the "get_query_set" method in "FlightView()" so that normal users can't see past flights 👇
 ```python
 from datetime import datetime, date
 def get_queryset(self):
@@ -947,4 +944,5 @@ def get_queryset(self):
             queryset = queryset.union(today_qs)
             return queryset
 ```
-
+## 📢 Do not forget to check the endpoints you wrote in [Postman](https://www.postman.com/).
+## <center>🥳 END OF TH  PROJECT 🥳</center>
