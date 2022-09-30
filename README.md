@@ -945,4 +945,4 @@ def get_queryset(self):
             return queryset
 ```
 ## 📢 Do not forget to check the endpoints you wrote in [Postman](https://www.postman.com/).
-## <center>🥳 END OF TH  PROJECT 🥳</center>
+## <center>🥳 END OF THE  PROJECT 🥳</center>
