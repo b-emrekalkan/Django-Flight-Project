@@ -73,7 +73,7 @@ from decouple import config
 
 SECRET_KEY = config('SECRET_KEY')
 ```
-## 🚩 INSTALLING DJANGO REST
+## 💻 INSTALLING DJANGO REST
 
 💻 Go to terminal 👇
 
@@ -85,7 +85,7 @@ pip install djangorestframework
 
 ✔ Go to "settings.py" and add 'rest_framework' app to INSTALLED_APPS
 
-## 🚩 PostgreSQL Setup
+## 💻 PostgreSQL Setup
 💻 To get Python working with Postgres, you will need to install the “psycopg2” module👇
 
 ```bash
