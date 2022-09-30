@@ -1,4 +1,4 @@
-# <center> DJANGO-FLIGHT-PROJECT </center>
+# <center> ✈ DJANGO-FLIGHT-PROJECT ✈ </center>
 
 ## <center> ************************************** </center>
 # <center> 🚀 INITIAL SETUP </center>
