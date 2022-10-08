@@ -492,13 +492,17 @@ python manage.py startapp users
 ✔ Go to "base.py" and add 'users' app to "INSTALLED_APPS"
 
 ## 💻 INSTALL [DJ-REST-AUTH](https://dj-rest-auth.readthedocs.io/en/latest/)
+
 ```bash
 pip install dj-rest-auth
 ```
+
 💻 Go to terminal to update "requirements.txt"  👇
+
 ```bash
 pip freeze > requirements.txt
 ```
+
 ## 🚩 Add "dj_rest_auth" app to "INSTALLED_APPS" in your django "base.py" 👇
 
 ```python
@@ -506,13 +510,17 @@ pip freeze > requirements.txt
     'rest_framework.authtoken',
     'dj_rest_auth',
 ```
+
 ## 🚩 Go to "main/urls.py" and add the path 👇
+
 ```python
 path('users/', include('users.urls'))
 ```
 
 ## ✔ Create "urls.py" file under "users" App 👇
+
 ## 🚩 Go to "users/urls.py" and add 👇
+
 ```python
 from django.urls import path, include
 
@@ -522,11 +530,13 @@ urlpatterns = [
 ```
 
 ## 💻 Migrate your database
+
 ```bash
 python manage.py migrate
 ```
 
 ## ✔ Create "serializers.py" file under "users" App and add 👇
+
 ```python
 from rest_framework import serializers, validators
 # from django.contrib.auth.models import User
@@ -585,7 +595,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 ```
+
 ## 🚩 Go to "views.py"
+
 ```python
 from operator import ge
 from rest_framework import generics
@@ -597,11 +609,13 @@ class RegisterView(generics.CreateAPIView):
 ```
 
 ## 🚩 Go to "urls.py" and add the path 👇
+
 ```python
 path('register/', RegisterView.as_view()),
 ```
 
 ## 🚩 Go to "base.py" and add 👇
+
 ```python
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -611,6 +625,7 @@ REST_FRAMEWORK = {
 ```
 
 ## 🚩 Create "signals.py" under "user" App and add 👇
+
 ```python
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -624,12 +639,14 @@ def create_token(sender, instance=None, created=False, **kwargs):
 ```
 
 ## 🚩 Go to "apps.py" and add this under UsersConfig() 👇
+
 ```python
 def ready(self) -> None:
     import users.signals
 ```
 
 ## 🚩 Go to "views.py" and customize RegisterView()👇
+
 ```python
 from rest_framework import generics, status
 from django.contrib.auth.models import User
@@ -658,6 +675,7 @@ class RegisterView(generics.CreateAPIView):
 ```
 
 ## 🚩 Override TokenSerializer() 👇
+
 ```python
 from dj_rest_auth.serializers import TokenSerializer
 
@@ -681,12 +699,15 @@ class CustomTokenSerializer(TokenSerializer):
 ```
 
 ## 🚩 Go to "base.py" and add 👇
+
 ```python
 REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
 }
 ```
+
 ## <center> ****************************************************** </center>
+
 # <center> 🚀 LOGIC STARTING </center>
 
 - Flights:
@@ -706,6 +727,7 @@ REST_AUTH_SERIALIZERS = {
     + Staff_users:
         - create reservations
         - views all reservations
+
 ## 🚩 ADDING AN APP:
 
 💻 Go to terminal 👇
@@ -717,6 +739,7 @@ python manage.py startapp flight
 ✔ Go to "base.py" and add 'users' app to "INSTALLED_APPS"
 
 ## 🚩 Go to "flight/models.py" and create Models 👇
+
 ```python
 from django.db import models
 from django.contrib.auth.models import User
@@ -750,6 +773,7 @@ class Reservation(models.Model):
 ```
 
 ## 🚩 Register the models in "flight/admin.py" 👇
+
 ```python
 from django.contrib import admin
 from .models import Flight, Passenger, Reservation
@@ -760,12 +784,14 @@ admin.site.register(Reservation)
 ```
 
 ## 💻 Go to terminal for migration 👇
+
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
 ## 🚩 Create "serializers.py" file under "flight" App 👇
+
 ```python
 from rest_framework import serializers
 from .models import Flight, Passenger, Reservation
@@ -785,6 +811,7 @@ class FlightSerializer(serializers.ModelSerializer):
 ```
 
 ## 🚩 Time to add views in "flight/views.py" 👇
+
 ```python
 from django.shortcuts import render
 from .serializers import FlightSerializer
@@ -799,11 +826,13 @@ class FlightView(viewsets.ModelViewSet):
 ```
 
 ## 🚩 Go to "main/urls.py" and add the path 👇
+
 ```python
 path('flight/', include('flight.urls'))
 ```
 
 ## 🚩 Create "urls.py" file under "flight" App 👇
+
 ```python
 from rest_framework import routers
 from .views import FlightView
@@ -819,6 +848,7 @@ urlpatterns += router.urls
 ```
 
 ## 🚩 We will use "IsAdminUser" so that only the authorized user can create a flight. For that create "permissions.py" file under "flight" App 👇
+
 ```python
 from rest_framework import permissions
 
@@ -830,6 +860,7 @@ class IsStafforReadOnly(permissions.IsAdminUser):
 ```
 
 ## 🚩 Go to "views.py" and add this permission 👇
+
 ```python
 from .permissions import IsStafforReadOnly
 
@@ -839,6 +870,7 @@ class FlightView(viewsets.ModelViewSet):
 ```
 
 ## 🚩 Go to "serializers.py" and add ReservationSerializer() 👇
+
 ```python
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -854,19 +886,23 @@ class ReservationSerializer(serializers.ModelSerializer):
 ```
 
 ## 🚩 Go to "views.py" and add ReservationView() 👇
+
 ```python
 from .serializers import ReservationSerializer
 class ReservationView(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 ```
+
 ## 🚩 Go to "flight/urls.py" and add the path 👇
+
 ```python
 from .views import ReservationView
 router.register('resv', ReservationView)
 ```
 
 ## 🚩 Go to "serializers.py" and add PassengerSerializer() 👇
+
 ```python
 class PassengerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -875,6 +911,7 @@ class PassengerSerializer(serializers.ModelSerializer):
 ```
 
 ## 🚩 In ReservationSerializer() add 👇
+
 ```python
 passenger = PassengerSerializer(many = True, required=True)
 flight = serializers.StringRelatedField()
@@ -885,6 +922,7 @@ user_id = serializers.IntegerField(write_only=True, required=False)
 ```
 
 ## 🚩 We need to extract passenger information from the data, when the reservation is created. For that add to "serializers.py" 👇
+
 ```python
 def create(self, validated_data):
         passenger_data = validated_data.pop('passenger')
@@ -899,6 +937,7 @@ def create(self, validated_data):
 ```
 
 ## 🚩 All reservation information can only be seen by the staff user <i>(Users will only see their own reservation)</i>. For that override "get_queryset" method in "ReservationView()" in "views.py" 👇
+
 ```python
   #! Overriding "get_queryset" Method 👇
  def get_queryset(self):
@@ -909,6 +948,7 @@ def create(self, validated_data):
 ```
 
 ## 🚩 Let the staff members see the reservation information of that flight for each flight. For this, we will add reservations to "FlightView()" by writing a separate serializer and say show it to staff 👇
+
 ```python
 class StaffFlightSerializer(serializers.ModelSerializer):
     reservation = ReservationSerializer(many=True, read_only=True)
@@ -918,6 +958,7 @@ class StaffFlightSerializer(serializers.ModelSerializer):
 ```
 
 ## 🚩 Go to "views.py" and override "get_serializer_class" in "FlightView()" 👇
+
 ```python
 from .serializers import StaffFlightSerializer
 def get_serializer_class(self):
@@ -928,6 +969,7 @@ def get_serializer_class(self):
 ```
 
 ## 🚩 We will override the "get_query_set" method in "FlightView()" so that normal users can't see past flights 👇
+
 ```python
 from datetime import datetime, date
 def get_queryset(self):
@@ -944,5 +986,7 @@ def get_queryset(self):
             queryset = queryset.union(today_qs)
             return queryset
 ```
+
 ## 📢 Do not forget to check the endpoints you wrote in [Postman](https://www.postman.com/).
+
 ## <center>🥳 END OF THE  PROJECT 🥳</center>
