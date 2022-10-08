@@ -642,7 +642,7 @@ def create_token(sender, instance=None, created=False, **kwargs):
 
 ```python
 def ready(self) -> None:
-    import users.signals
+    import account.signals
 ```
 
 ## 🚩 Go to "views.py" and customize RegisterView()👇
